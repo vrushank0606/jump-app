@@ -3,7 +3,28 @@ import ReactMarkdown from "react-markdown";
 import "./index.css";
 
 function App() {
-  const [markdown, setMarkdown] = useState("# Hello World");
+  const [markdown, setMarkdown] = useState("# Hello, Markdown!");
+
+  /**
+   * Handle Copy to Clipboard
+   */
+  const handleCopy = () => {
+    const content = document.getElementById("preview").innerText;
+
+    if (!content.trim()) {
+      alert("Nothing to copy!");
+      return;
+    }
+
+    navigator.clipboard
+      .writeText(content)
+      .then(() => {
+        alert("Content copied to clipboard!");
+      })
+      .catch((err) => {
+        console.error("Failed to copy content: ", err);
+      });
+  };
 
   return (
     <div className="container">
@@ -21,6 +42,10 @@ function App() {
       <div className="preview">
         <div id="preview">
           <ReactMarkdown>{markdown}</ReactMarkdown>
+        </div>
+
+        <div className="buttons">
+          <button onClick={handleCopy}>Copy</button>
         </div>
       </div>
     </div>
